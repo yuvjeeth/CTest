@@ -1,36 +1,51 @@
 #include<iostream>
 #include<string> 
 
-bool checkValidString(std::string s) {
-    int openCtr = 0;
-    int closeCtr = 0;
-        for(int i = 0; i < s.size(); i++){
-            if(s[i] == '('){
-                openCtr++;
-            }
-            else if(s[i] == ')'){
-                closeCtr++;
+bool isValid(std::string s) {
+    std::string str1 = "";
+    for(int i = 0; i < s.size(); i++){
+        if(s[i] == '(' || s[i] == '[' || s[i] == '{'){
+            str1 += s[i];
+        }
+        else if (s[i] == ')'){
+            if(str1.back() == '('){
+                str1.pop_back();
             }
             else{
-                if(s[i] == '*' && openCtr > closeCtr){
-                    openCtr--;
-                }
-                if(s[i] == '*' && openCtr < closeCtr){
-                    closeCtr--;
-                }
+                return false;
             }
         }
-        if(openCtr == closeCtr){
-            return true;
+        else if (s[i] == '}'){
+            if(str1.back() == '{'){
+                str1.pop_back();
+            }
+            else{
+                return false;
+            }
         }
-        else{
+        else if (s[i] == ']'){
+            if(str1.back() == '['){
+                str1.pop_back();
+            }
+            else{
+                return false;
+            }
+        }
+        
+    }
+    if(str1 == ""){
+            return true;
+        
+        } else{
             return false;
         }
 }
+ 
 
-int main(){
-        std::string testcase = "(*)";
-        std::string output = checkValidString(testcase)?"True":"False";
-        std::cout<<output;
-        return 0;
-    }
+int main() {
+    std::string testcase = "([)]";
+    std::string output = isValid(testcase)?"True":"False";
+    std::cout<<output;
+    return 0;
+}
+        
